@@ -24,13 +24,13 @@ These show how to handle various analysis tasks with pyEDA, from noisy data coll
 <br />
 <br />
 Here you can find the list of notebooks starting from preprocessing of EDA signal to extracting its features.
-* [GSR preprocessing](documentations/GSR preprocessing/GSR_Preprocessing.ipynb), a notebook explaining preprocessing part of GSR.
+* [GSR preprocessing](documentations/GSRPreprocessing/GSR_Preprocessing.ipynb), a notebook explaining preprocessing part of GSR.
   * Downsampling
   * Moving Window Averaging
   * Normalization
   * Extracting tonic and phasic components of signal using cvxPDA.py.
   * Butterworth Low pass filter
-* [GSR feature extraction](documentations/GSR feature extraction/GSR_feature_extraction.ipynb), a notebook explaining feature extraction of GSR.
+* [GSR feature extraction](documentations/GSRFeatureExtraction/GSR_feature_extraction.ipynb), a notebook explaining feature extraction of GSR.
   * Number of peaks
   * Maximum value of GSR
   * Mean value of GSR
