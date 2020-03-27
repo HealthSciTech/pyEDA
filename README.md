@@ -30,7 +30,7 @@ Here you can find the list of notebooks starting from preprocessing of EDA signa
   * Normalization
   * Extracting tonic and phasic components of signal using cvxPDA.py.
   * Butterworth Low pass filter
-* [GSR feature extraction](documentations/GSRFeatureExtraction/GSR_feature_extraction.ipynb), a notebook explaining feature extraction of GSR.
+* [GSR feature extraction](documentations/GSRFeatureExtraction/GSR_Feature_Extraction.ipynb), a notebook explaining feature extraction of GSR.
   * Number of peaks
   * Maximum value of GSR
   * Mean value of GSR
