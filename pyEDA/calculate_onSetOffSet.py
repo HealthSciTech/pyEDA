@@ -1,3 +1,6 @@
+# Importing necessary libraries
+import numpy as np
+
 '''
 Calculate the list of onSets and offSets based on phasic component of signal.
 '''

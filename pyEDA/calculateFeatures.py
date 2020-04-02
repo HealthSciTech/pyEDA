@@ -1,3 +1,6 @@
+# Importing necessary libraries
+import numpy as np
+
 def calculate_max(data):
   return np.max(data)
   

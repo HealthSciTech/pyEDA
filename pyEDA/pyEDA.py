@@ -1,3 +1,18 @@
+# Importing necessary libraries
+import numpy as np
+import time
+
+path = os.getcwd()+'\\pyEDA\\'
+sys.path.insert(0, path)
+# Importing necessary functions
+from calculate_onSetOffSet import *
+from calculate_thepeaks import *
+from calculateFeatures import *
+from cvxEDA import *
+from filtering import *
+from preprocessing import *
+from windowing import *
+
 '''
 process EDA signal without windowing
 returns only one value for each feature
@@ -40,7 +55,7 @@ def process(gsrdata, sample_rate, windowsize=0.75, report_time=False,
 function. Please supply a 1d array or list containing heart rate signal data. \n\nDid you perhaps \
 include an index column?'
     # Filtered gsr for finding peaks
-    filtered_gsr = butter_lowpassfilter(gsrdata, 5/sample_rate, sample_rate, order=2)
+    filtered_gsr = butter_lowpassfilter(gsrdata, 5/sample_rate, sample_rate, order=6)
     # Passing the rolling window from the gsrdata 
     rol_mean = rolling_mean(gsrdata, windowsize, sample_rate)
     # Normalized the rol_mean
@@ -50,7 +65,7 @@ include an index column?'
     # Extract phasic gsr signal from original signal
     #phasic_gsr = median_filter(normalized_gsr, sample_rate)
     [phasic_gsr, p, tonic_gsr, l, d, e, obj] = cvxEDA(normalized_gsr, 1./sample_rate)    
-    filtered_phasic_gsr = butter_lowpassfilter(phasic_gsr, 5/sample_rate, sample_rate, order=2)
+    filtered_phasic_gsr = butter_lowpassfilter(phasic_gsr, 5/sample_rate, sample_rate, order=6)
 
     # Update working_data
     working_data['gsr'] = gsrdata
@@ -66,7 +81,7 @@ include an index column?'
     print(onSet_offSet)
     # Calculate the peaks using onSet and offSet of Phasic GSR signal
     if (len(onSet_offSet) != 0):
-      peaklist, indexlist = calculate_thepeaks(normalized_gsr, onSet_offSet)
+      peaklist, indexlist = calculate_thepeaks(filtered_gsr, onSet_offSet)
     else: 
       peaklist = []
       indexlist = []
@@ -75,8 +90,8 @@ include an index column?'
     # Calculate the number of peaks
     measures['number_of_peaks'] = calculate_number_of_peaks(peaklist)
     # Calculate the mean and the max of EDA from the original GSR signal
-    measures['mean'] = calculate_mean(normalized_gsr)
-    measures['max'] = calculate_max(normalized_gsr)
+    measures['mean'] = calculate_mean(filtered_gsr)
+    measures['max'] = calculate_max(filtered_gsr)
 
     #report time if requested. Exclude from tests, output is untestable.
     if report_time: # pragma: no cover

@@ -32,6 +32,11 @@ ______________________________________________________________________________
  ______________________________________________________________________________
 """
 
+# Importing necessary libraries
+import numpy as np
+import cvxopt as cv
+import cvxopt.solvers
+
 def cvxEDA(y, delta, tau0=2., tau1=0.7, delta_knot=10., alpha=8e-4, gamma=1e-2,
            solver=None, options={'reltol':1e-9}):
     """CVXEDA Convex optimization approach to electrodermal activity processing

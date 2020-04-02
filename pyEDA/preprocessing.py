@@ -1,3 +1,8 @@
+# Importing necessary libraries
+import numpy as np
+import scipy.signal as sps
+
+
 def resample_data(gsrdata, prevSR, newSR):
 	number_of_samples = round(len(gsrdata) * float(newSR) / prevSR)
 	data = sps.resample(gsrdata, number_of_samples)

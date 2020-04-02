@@ -1,3 +1,6 @@
+# Importing necessary libraries
+import csv
+
 def openShimmerFile(url, column_name):
     """
       url: The address of the csv file from Shimmer

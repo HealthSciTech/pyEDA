@@ -1,3 +1,6 @@
+# Importing necessary libraries
+import numpy as np
+
 def make_windows(data, sample_rate, windowsize=120, overlap=0, min_size=20):
     '''slices data into windows
     Funcion that slices data into windows for concurrent analysis. 

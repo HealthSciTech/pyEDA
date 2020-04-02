@@ -1,3 +1,6 @@
+# Importing necessary libraries
+from scipy.signal import butter, filtfilt
+
 '''
 Using median filter to extract phasic component of gsr
 '''

@@ -1,3 +1,6 @@
+# Importing necessary libraries
+import numpy as np
+
 '''
 Calculate the number of peaks based on onSet and offSet values.
 '''
