@@ -37,9 +37,9 @@ Y = [] # Target Y for input X
 for i in fileName:
   Raw_GSR = openShimmerFile(i, columnName)
   gsrdata = np.array(Raw_GSR)
+  
   plt.figure(figsize=(12,4))
   plt.plot(gsrdata)
-  plt.figure(figsize=(12,4))
   plt.show()
 
   # Select the new sample rate, and windowing size
@@ -49,8 +49,17 @@ for i in fileName:
   # Resample the data based on original data rate of your device, here: 128Hz
   data = resample_data(gsrdata, 128, sample_rate)
 
-  wd, m = process_segmentwise(data, sample_rate=sample_rate, segment_width=segment_width, segment_overlap=0)
+  # Segmentwise the data based on window sizes
+  s_working_data, s_measures, gsrdata_segmentwise = segmentwise(data, sample_rate=sample_rate, segment_width=segment_width, segment_overlap=0)
+  for i in gsrdata_segmentwise:
+    working_data, measures = statistical_feature_extraction(i, sample_rate)
+    for k in measures.keys():
+        s_measures = append_dict(s_measures, k, measures[k])
+    for k in working_data.keys():
+        s_working_data = append_dict(s_working_data, k, working_data[k])
 
+  wd = s_working_data
+  m = s_measures
   # Mapping the indexlist of each window to original data: comment it if you do not use windowing
   for index,i2 in enumerate(wd['indexlist']):
     for index2,j2 in enumerate(i2):
@@ -63,10 +72,10 @@ for i in fileName:
       peaks.append(j2)
 
   # Visualize the data with detected peaks marked with "x"
-  filtered_gsr = butter_lowpassfilter(data, 5/sample_rate, sample_rate, order=6)
+  filtered_gsr = butter_lowpassfilter(data, 5./sample_rate, sample_rate, order=6)
   plt.plot(filtered_gsr)
   plt.plot(peaks, filtered_gsr[peaks], "x")
-  plt.show()
+  plt.show()  
 
   print(m['mean'])
   print(m['number_of_peaks'])

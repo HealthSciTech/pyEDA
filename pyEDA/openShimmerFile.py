@@ -17,15 +17,15 @@ def openShimmerFile(url, column_name):
     with open(url) as f:
         reader = csv.reader(f, delimiter='\t')
         # Store data in lists
-        sep = reader.__next__()
-        second_row = reader.__next__()
+        sep = reader.next()
+        second_row = reader.next()
         shimmer_header = []
         data_header = []
         calib_header = []
         for i,column in enumerate(second_row):
             if (column == column_name):
               index = i
-        reader.__next__()
+        reader.next()
 
         if (index < 0):
             print("Column not found!")

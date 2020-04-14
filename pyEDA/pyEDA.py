@@ -1,3 +1,6 @@
+import sys
+import os
+
 # Importing necessary libraries
 import numpy as np
 import time
@@ -14,10 +17,9 @@ from preprocessing import *
 from windowing import *
 
 '''
-process EDA signal without windowing
-returns only one value for each feature
+
 '''
-def process(gsrdata, sample_rate, windowsize=0.75, report_time=False,  
+def statistical_feature_extraction(gsrdata, sample_rate, windowsize=0.75, report_time=False,  
             measures={}, working_data={}):
     '''processes passed gsrdata.
     
@@ -49,13 +51,13 @@ def process(gsrdata, sample_rate, windowsize=0.75, report_time=False,
     measures : dict
         dictionary object used by heartpy to store computed measures.
     '''
-    t1 = time.perf_counter()
+    t1 = time.time()
 
     assert np.asarray(gsrdata).ndim == 1, 'error: multi-dimensional data passed to process() \
 function. Please supply a 1d array or list containing heart rate signal data. \n\nDid you perhaps \
 include an index column?'
     # Filtered gsr for finding peaks
-    filtered_gsr = butter_lowpassfilter(gsrdata, 5/sample_rate, sample_rate, order=6)
+    filtered_gsr = butter_lowpassfilter(gsrdata, 5./sample_rate, sample_rate, order=6)
     # Passing the rolling window from the gsrdata 
     rol_mean = rolling_mean(gsrdata, windowsize, sample_rate)
     # Normalized the rol_mean
@@ -65,7 +67,7 @@ include an index column?'
     # Extract phasic gsr signal from original signal
     #phasic_gsr = median_filter(normalized_gsr, sample_rate)
     [phasic_gsr, p, tonic_gsr, l, d, e, obj] = cvxEDA(normalized_gsr, 1./sample_rate)    
-    filtered_phasic_gsr = butter_lowpassfilter(phasic_gsr, 5/sample_rate, sample_rate, order=6)
+    filtered_phasic_gsr = butter_lowpassfilter(phasic_gsr, 5./sample_rate, sample_rate, order=6)
 
     # Update working_data
     working_data['gsr'] = gsrdata
@@ -95,7 +97,7 @@ include an index column?'
 
     #report time if requested. Exclude from tests, output is untestable.
     if report_time: # pragma: no cover
-        print('\nFinished in %.8s sec' %(time.perf_counter()-t1))
+        print('\nFinished in %.8s sec' %(time.time()-t1))
 
     return working_data, measures
 
@@ -104,13 +106,9 @@ include an index column?'
 '''
 process EDA signal with windowing of size segment_width*sample_rate
 '''
-def process_segmentwise(gsrdata, sample_rate, segment_width=120, segment_overlap=0,
-                        segment_min_size=20, **kwargs):
-    '''processes gsr data with a windowed function
-    Analyses a long gsr data array by running a moving window 
-    over the data, computing measures in each iteration. Both the window width
-    and the overlap with the previous window location are settable.
-    Parameters
+def segmentwise(gsrdata, sample_rate, segment_width=120, segment_overlap=0,
+                        segment_min_size=20):
+    '''segmentwise gsr data with a windowed function
     ----------
     gsrdata : 1d array or list 
         array or list containing gsr data to be analysed
@@ -142,31 +140,25 @@ def process_segmentwise(gsrdata, sample_rate, segment_width=120, segment_overlap
                         generated series of segments to still be included. Default = 20.
     Returns
     -------
-    working_data : dict
+    gsrdata_segmentwise : 2d array or list 
+        array or list containing segmentwised gsr data to be analysed
+	s_working_data : dict
         dictionary object used to store temporary values.
-    
-    measures : dict
-        dictionary object used to store computed measures.
+    s_measures : dict
+        dictionary object used by heartpy to store computed measures.
     '''
 
     assert 0 <= segment_overlap < 1.0, 'value error: segment_overlap needs to be \
 0 <= segment_overlap < 1.0!'
 
-    s_measures={}
-    s_working_data={}
-
     slice_indices = make_windows(gsrdata, sample_rate, segment_width, segment_overlap, segment_min_size)
 
+    s_measures = {}
+    s_working_data = {}
+	
+    gsrdata_segmentwise = []
     for i, ii in slice_indices:
-        try:
-            working_data, measures = process(gsrdata[i:ii], sample_rate, **kwargs)
-            for k in measures.keys():
-                s_measures = append_dict(s_measures, k, measures[k])
-            for k in working_data.keys():
-                s_working_data = append_dict(s_working_data, k, working_data[k])
-            s_measures = append_dict(s_measures, 'segment_indices', (i, ii))
-            s_working_data = append_dict(s_working_data, 'segment_indices', (i, ii))
-        except exceptions.BadSignalWarning:
-            pass
-
-    return s_working_data, s_measures
+        gsrdata_segmentwise.append(gsrdata[i:ii])
+        s_measures = append_dict(s_measures, 'segment_indices', (i, ii))
+        s_working_data = append_dict(s_working_data, 'segment_indices', (i, ii))
+    return s_working_data, s_measures, gsrdata_segmentwise

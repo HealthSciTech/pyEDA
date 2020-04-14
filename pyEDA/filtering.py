@@ -44,7 +44,7 @@ def butter_lowpass(cutoff, sample_rate, order=2):
         of the defined Butterworth IIR filter.
     '''
     nyq = 0.5 * sample_rate
-    normal_cutoff = cutoff / nyq
+    normal_cutoff = cutoff/nyq
     b, a = butter(order, normal_cutoff, btype='low', analog=False)
     return b, a
 
