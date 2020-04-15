@@ -57,7 +57,7 @@ for i in fileName:
   
   normalized_gsr = []
   for i in gsrdata_segmentwise:
-    normalized_gsr.append(normalization(i))
+    normalized_gsr.append(normalization(rolling_mean(i, 1./sample_rate, sample_rate)))
 	
   ############################ Preprocessing Part ############################
   ############################################################################
@@ -105,7 +105,7 @@ for i in fileName:
       peaks.append(j2)
 
   # Visualize the data with detected peaks marked with "x"
-  ng = normalization(data)
+  ng = normalization(rolling_mean(data, 1./sample_rate, sample_rate))
   plt.plot(ng)
   plt.plot(peaks, ng[peaks], "x")
   plt.show()
