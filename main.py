@@ -38,10 +38,13 @@ for i in fileName:
   Raw_GSR = openShimmerFile(i, columnName)
   gsrdata = np.array(Raw_GSR)
   
-  plt.figure(figsize=(12,4))
-  plt.plot(gsrdata)
-  plt.show()
+  #plt.figure(figsize=(12,4))
+  #plt.plot(gsrdata)
+  #plt.show()
 
+  ############################################################################
+  ############################ Preprocessing Part ############################
+  
   # Select the new sample rate, and windowing size
   sample_rate=40
   segment_width=500
@@ -51,7 +54,21 @@ for i in fileName:
 
   # Segmentwise the data based on window sizes
   s_working_data, s_measures, gsrdata_segmentwise = segmentwise(data, sample_rate=sample_rate, segment_width=segment_width, segment_overlap=0)
+  
+  normalized_gsr = []
   for i in gsrdata_segmentwise:
+    normalized_gsr.append(normalization(i))
+	
+  ############################ Preprocessing Part ############################
+  ############################################################################
+  
+  
+  
+  #################################################################################
+  ############################ Feature Extraction Part ############################
+
+  # Statistical Feature Extraction
+  for i in normalized_gsr:
     working_data, measures = statistical_feature_extraction(i, sample_rate)
     for k in measures.keys():
         s_measures = append_dict(s_measures, k, measures[k])
@@ -60,6 +77,22 @@ for i in fileName:
 
   wd = s_working_data
   m = s_measures
+  
+  
+  # Deep Learning Feature Extraction
+  ###
+  ### Your code here
+  ###
+  
+  ############################ Feature Extraction Part ############################
+  #################################################################################
+  
+  
+  
+  
+  ##########################################################################################
+  ############################ Visualizing Statistical Features ############################
+  
   # Mapping the indexlist of each window to original data: comment it if you do not use windowing
   for index,i2 in enumerate(wd['indexlist']):
     for index2,j2 in enumerate(i2):
@@ -72,18 +105,27 @@ for i in fileName:
       peaks.append(j2)
 
   # Visualize the data with detected peaks marked with "x"
-  filtered_gsr = butter_lowpassfilter(data, 5./sample_rate, sample_rate, order=6)
-  plt.plot(filtered_gsr)
-  plt.plot(peaks, filtered_gsr[peaks], "x")
-  plt.show()  
+  ng = normalization(data)
+  plt.plot(ng)
+  plt.plot(peaks, ng[peaks], "x")
+  plt.show()
 
-  print(m['mean'])
+  print(m['mean_gsr'])
   print(m['number_of_peaks'])
-  print(m['max'])
+  print(m['max_of_peaks'])
+  
+  ############################ Visualizing Statistical Features ############################
+  ##########################################################################################
+  
+  
+  
+  
+  ###############################################################################################
+  ############################ Creating train data with their labels ############################
 
   # Creating input X for classifier
   for i2 in range(0, len(wd['segment_indices'])):
-    tmp = [m['mean'][i2],m['max'][i2],m['number_of_peaks'][i2]]
+    tmp = [m['mean_gsr'][i2],m['max_of_peaks'][i2],m['number_of_peaks'][i2]]
     X.append(tmp)
     # Based on their label from your data set: here is just set as i
     Y.append(i2)
@@ -91,6 +133,13 @@ for i in fileName:
   Xtrain = np.array(X)
   Ytrain = np.array(Y)
   
+  ############################ Creating train data with their labels ############################
+  ###############################################################################################
+  
+  
+  
+######################################################################## 
+############################ Classification ############################
 '''
 You Need to update this part completely based on your data set.
 '''
@@ -131,3 +180,6 @@ Predictions['size'] = len(Ytest)
 
 TournamentSelection(Accuracy, Predictions)
 '''
+
+############################ Classification ############################
+########################################################################

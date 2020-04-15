@@ -4,6 +4,7 @@ import os
 # Importing necessary libraries
 import numpy as np
 import time
+from scipy import stats
 
 path = os.getcwd()+'\\pyEDA\\'
 sys.path.insert(0, path)
@@ -19,15 +20,15 @@ from windowing import *
 '''
 
 '''
-def statistical_feature_extraction(gsrdata, sample_rate, windowsize=0.75, report_time=False,  
+def statistical_feature_extraction(normalized_gsr, sample_rate, windowsize=0.75, report_time=False,  
             measures={}, working_data={}):
     '''processes passed gsrdata.
     
     Processes the passed gsr data. Returns measures{} dict containing results.
     Parameters
     ----------
-    gsrdata : 1d array or list 
-        array or list containing gsr data to be analysed
+    normalized_gsr : 1d array or list 
+        array or list containing normalized gsr data to be analysed
     sample_rate : int or float
         the sample rate with which the gsr data is sampled
     windowsize : int or float
@@ -53,37 +54,21 @@ def statistical_feature_extraction(gsrdata, sample_rate, windowsize=0.75, report
     '''
     t1 = time.time()
 
-    assert np.asarray(gsrdata).ndim == 1, 'error: multi-dimensional data passed to process() \
-function. Please supply a 1d array or list containing heart rate signal data. \n\nDid you perhaps \
-include an index column?'
-    # Filtered gsr for finding peaks
-    filtered_gsr = butter_lowpassfilter(gsrdata, 5./sample_rate, sample_rate, order=6)
-    # Passing the rolling window from the gsrdata 
-    rol_mean = rolling_mean(gsrdata, windowsize, sample_rate)
-    # Normalized the rol_mean
-    normalized_gsr = normalization(rol_mean)
-    # Passing the gsrdata from median filter    
-    #medfilt_gsr = medfilt(normalized_gsr)
-    # Extract phasic gsr signal from original signal
-    #phasic_gsr = median_filter(normalized_gsr, sample_rate)
-    [phasic_gsr, p, tonic_gsr, l, d, e, obj] = cvxEDA(normalized_gsr, 1./sample_rate)    
+    # Extracting phasic and tonic components of from normalized gsr
+    [phasic_gsr, p, tonic_gsr, l, d, e, obj] = cvxEDA(normalized_gsr, 1./sample_rate)
+	# Removing line noise
     filtered_phasic_gsr = butter_lowpassfilter(phasic_gsr, 5./sample_rate, sample_rate, order=6)
 
     # Update working_data
-    working_data['gsr'] = gsrdata
-    working_data['filtered_gsr'] = filtered_gsr
-    working_data['rol_mean'] = rol_mean
-    working_data['normalized_gsr'] = normalized_gsr
     working_data['filtered_phasic_gsr'] = filtered_phasic_gsr
     working_data['phasic_gsr'] = phasic_gsr
     working_data['tonic_gsr'] = tonic_gsr
 
     # Calculate the onSet and offSet based on Phasic GSR signal
     onSet_offSet = calculate_onSetOffSet(filtered_phasic_gsr, sample_rate)
-    print(onSet_offSet)
     # Calculate the peaks using onSet and offSet of Phasic GSR signal
     if (len(onSet_offSet) != 0):
-      peaklist, indexlist = calculate_thepeaks(filtered_gsr, onSet_offSet)
+      peaklist, indexlist = calculate_thepeaks(normalized_gsr, onSet_offSet)
     else: 
       peaklist = []
       indexlist = []
@@ -91,9 +76,10 @@ include an index column?'
     working_data['indexlist'] = indexlist
     # Calculate the number of peaks
     measures['number_of_peaks'] = calculate_number_of_peaks(peaklist)
-    # Calculate the mean and the max of EDA from the original GSR signal
-    measures['mean'] = calculate_mean(filtered_gsr)
-    measures['max'] = calculate_max(filtered_gsr)
+    # Calculate the std mean of EDA
+    measures['mean_gsr'] = calculate_mean_gsr(normalized_gsr)
+	# Calculate the maximum value of peaks of EDA
+    measures['max_of_peaks'] = calculate_max_peaks(peaklist)
 
     #report time if requested. Exclude from tests, output is untestable.
     if report_time: # pragma: no cover

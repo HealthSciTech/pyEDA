@@ -1,10 +1,10 @@
 # Importing necessary libraries
 import numpy as np
 
-def calculate_max(data):
+def calculate_max_peaks(data):
   return np.max(data)
   
-def calculate_mean(data):
+def calculate_mean_gsr(data):
   return np.mean(data)
   
 def calculate_number_of_peaks(data):
