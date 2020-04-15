@@ -55,9 +55,9 @@ for i in fileName:
   # Segmentwise the data based on window sizes
   s_working_data, s_measures, gsrdata_segmentwise = segmentwise(data, sample_rate=sample_rate, segment_width=segment_width, segment_overlap=0)
   
-  normalized_gsr = []
+  preprocessed_gsr = []
   for i in gsrdata_segmentwise:
-    normalized_gsr.append(normalization(rolling_mean(i, 1./sample_rate, sample_rate)))
+    preprocessed_gsr.append(normalization(rolling_mean(i, 1./sample_rate, sample_rate)))
 	
   ############################ Preprocessing Part ############################
   ############################################################################
@@ -68,7 +68,7 @@ for i in fileName:
   ############################ Feature Extraction Part ############################
 
   # Statistical Feature Extraction
-  for i in normalized_gsr:
+  for i in preprocessed_gsr:
     working_data, measures = statistical_feature_extraction(i, sample_rate)
     for k in measures.keys():
         s_measures = append_dict(s_measures, k, measures[k])

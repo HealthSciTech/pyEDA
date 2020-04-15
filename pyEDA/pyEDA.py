@@ -20,14 +20,14 @@ from windowing import *
 '''
 
 '''
-def statistical_feature_extraction(normalized_gsr, sample_rate, windowsize=0.75, report_time=False,  
+def statistical_feature_extraction(preprocessed_gsr, sample_rate, windowsize=0.75, report_time=False,  
             measures={}, working_data={}):
     '''processes passed gsrdata.
     
     Processes the passed gsr data. Returns measures{} dict containing results.
     Parameters
     ----------
-    normalized_gsr : 1d array or list 
+    preprocessed_gsr : 1d array or list 
         array or list containing normalized gsr data to be analysed
     sample_rate : int or float
         the sample rate with which the gsr data is sampled
@@ -55,7 +55,7 @@ def statistical_feature_extraction(normalized_gsr, sample_rate, windowsize=0.75,
     t1 = time.time()
 
     # Extracting phasic and tonic components of from normalized gsr
-    [phasic_gsr, p, tonic_gsr, l, d, e, obj] = cvxEDA(normalized_gsr, 1./sample_rate)
+    [phasic_gsr, p, tonic_gsr, l, d, e, obj] = cvxEDA(preprocessed_gsr, 1./sample_rate)
 	# Removing line noise
     filtered_phasic_gsr = butter_lowpassfilter(phasic_gsr, 5./sample_rate, sample_rate, order=6)
 
@@ -68,7 +68,7 @@ def statistical_feature_extraction(normalized_gsr, sample_rate, windowsize=0.75,
     onSet_offSet = calculate_onSetOffSet(filtered_phasic_gsr, sample_rate)
     # Calculate the peaks using onSet and offSet of Phasic GSR signal
     if (len(onSet_offSet) != 0):
-      peaklist, indexlist = calculate_thepeaks(normalized_gsr, onSet_offSet)
+      peaklist, indexlist = calculate_thepeaks(preprocessed_gsr, onSet_offSet)
     else: 
       peaklist = []
       indexlist = []
@@ -77,7 +77,7 @@ def statistical_feature_extraction(normalized_gsr, sample_rate, windowsize=0.75,
     # Calculate the number of peaks
     measures['number_of_peaks'] = calculate_number_of_peaks(peaklist)
     # Calculate the std mean of EDA
-    measures['mean_gsr'] = calculate_mean_gsr(normalized_gsr)
+    measures['mean_gsr'] = calculate_mean_gsr(preprocessed_gsr)
 	# Calculate the maximum value of peaks of EDA
     measures['max_of_peaks'] = calculate_max_peaks(peaklist)
 
