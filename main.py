@@ -88,11 +88,11 @@ for i in fileName:
   getFeature = deepFeeature(model)
   getPrediction = deepPrediction(model)
   
-  exTrain3000 = getFeature([x_train[:3000], 0])[0]
+  exTrain3000 = getFeature([gsrdata_segmentwise[:3000], 0])[0]
 
   # # output of getFeature function
   # exTrain3000[0]
-  
+
   ##################################
   ###
   
