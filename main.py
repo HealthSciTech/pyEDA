@@ -21,7 +21,7 @@ from knnClassifier import *
 from NaiveBayesGaussianClassifier import *
 from RandomForestClassifier import *
 from SVMClassifier import *
-
+from 1DcnnClassifier import *
 path = os.getcwd()+'\\tournament_selection\\'
 sys.path.insert(0, path)
 # Importing necessary functions for final prediction
@@ -81,7 +81,19 @@ for i in fileName:
   
   # Deep Learning Feature Extraction
   ###
-  ### Your code here
+  
+  ##################################
+  # Added by Emad
+  model = create_1Dcnn()
+  getFeature = deepFeeature(model)
+  getPrediction = deepPrediction(model)
+  
+  exTrain3000 = getFeature([x_train[:3000], 0])[0]
+
+  # # output of getFeature function
+  # exTrain3000[0]
+  
+  ##################################
   ###
   
   ############################ Feature Extraction Part ############################
