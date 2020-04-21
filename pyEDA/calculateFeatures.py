@@ -2,7 +2,10 @@
 import numpy as np
 
 def calculate_max_peaks(data):
-  return np.max(data)
+  if (len(data) == 0):
+    return 0
+  else:
+    return np.max(data)
   
 def calculate_mean_gsr(data):
   return np.mean(data)

@@ -15,14 +15,19 @@ def openShimmerFile(url, column_name):
 
     # Read File
     with open(url) as f:
-        reader = csv.reader(f, delimiter='\t')
+        if ('csv' in url):
+          reader = csv.reader(f, delimiter=',')
+        else:
+          reader = csv.reader(f, delimiter='\t')
         # Store data in lists
         sep = reader.next()
-        second_row = reader.next()
+        sep = reader.next()
+        sep = reader.next()		
+        forth_row = reader.next()
         shimmer_header = []
         data_header = []
         calib_header = []
-        for i,column in enumerate(second_row):
+        for i,column in enumerate(forth_row):
             if (column == column_name):
               index = i
         reader.next()

@@ -21,7 +21,7 @@ from knnClassifier import *
 from NaiveBayesGaussianClassifier import *
 from RandomForestClassifier import *
 from SVMClassifier import *
-from 1DcnnClassifier import *
+#from DcnnClassifier import *
 path = os.getcwd()+'\\tournament_selection\\'
 sys.path.insert(0, path)
 # Importing necessary functions for final prediction
@@ -29,8 +29,8 @@ from TournamentSelection import *
 
 
 # You must edit these based on your files
-fileName = ['110_Session1_Shimmer_9301_Calibrated_PC.csv']
-columnName = 'Shimmer_9301_GSR_Skin_Conductance_CAL'
+fileName = ['data1.dat', 'data2.csv' , 'data3.dat', 'data4.dat', 'data5.csv']
+columnName = 'microSiemens'
 X = [] # Input X for classifier
 Y = [] # Target Y for input X
 
@@ -38,16 +38,16 @@ for i in fileName:
   Raw_GSR = openShimmerFile(i, columnName)
   gsrdata = np.array(Raw_GSR)
   
-  #plt.figure(figsize=(12,4))
-  #plt.plot(gsrdata)
-  #plt.show()
+  plt.figure(figsize=(12,4))
+  plt.plot(gsrdata)
+  plt.show()
 
   ############################################################################
   ############################ Preprocessing Part ############################
   
   # Select the new sample rate, and windowing size
   sample_rate=40
-  segment_width=500
+  segment_width=600
 
   # Resample the data based on original data rate of your device, here: 128Hz
   data = resample_data(gsrdata, 128, sample_rate)
@@ -84,11 +84,11 @@ for i in fileName:
   
   ##################################
   # Added by Emad
-  model = create_1Dcnn()
-  getFeature = deepFeeature(model)
-  getPrediction = deepPrediction(model)
+  # model = create_1Dcnn()
+  # getFeature = deepFeeature(model)
+  # getPrediction = deepPrediction(model)
   
-  exTrain3000 = getFeature([gsrdata_segmentwise[:3000], 0])[0]
+  # exTrain3000 = getFeature([gsrdata_segmentwise[:3000], 0])[0]
 
   # # output of getFeature function
   # exTrain3000[0]
