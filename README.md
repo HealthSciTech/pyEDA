@@ -1,8 +1,6 @@
 # pyEDA
-This is pyEDA v.1.1.
+This is pyEDA v.1.0.
 <br />This package includes all you need for Electrodermal Activity analysis also known as GSR. It contains preprocessing of the EDA signal and its feature extraction.
-<br />pyEDA v1.1. supports classification at the end of the pipeline. 
-<br />Classification, and tournament_selection folders are added to this version. You can find more information about the classification part at the end of this readme on Classification section.
 
 # Data collection
 All the plots and the data collected for this package are comming from Shimmer GSR+ wearable sensor. If you are using other sensors to collect EDA signal, you may need to use your own openShimmerFile.py based on your file. Otherwise, you can use openShimmerFile.py with minor changes. 
@@ -38,10 +36,3 @@ Here you can find the list of notebooks starting from preprocessing of EDA signa
   * Number of peaks
   * Maximum value of GSR
   * Mean value of GSR
-
-# Classification
-There are some commented parts in the main.py about classification that you need to update them based your data set. (The way you like to put your data, labels, etc.)
-<br /><br />
-This version of pipeline currently includes k-nearest neighbour classifier, naive bayes gaussian classifier, random forest classifier, and svm classifier. You can select your desired classifiers by setting their value to True in main.py.
-<br /><br />
-At the end of the pipeline we use simple ensemble method to produce the final prediction on the test data. We have TournamentSelection which calculates the weighted average predictions of all of your selected classifiers where the weight is the accuracy of each classifier on the test data.
