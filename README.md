@@ -16,7 +16,6 @@ python pyEDA/pyEDA/main.py
 ```
 NOTE: make sure you are using the correct directory for your file.
 <br />
-NOTE: default version of pipeline does not use any classifier, for using classifier update the determined commented parts of classifier in main.py based on your data set.
 
 # Documentation
 Here you can find the link to different notebooks about all the aspects of analysis of the GSR signal. These documentations include information about preprocessing and feature extraction of EDA signal.
