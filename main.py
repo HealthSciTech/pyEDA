@@ -16,17 +16,7 @@ from pyEDA import *
 
 path = os.getcwd()+'\\classification\\'
 sys.path.insert(0, path)
-# Importing necessary functions for classification
-from knnClassifier import *
-from NaiveBayesGaussianClassifier import *
-from RandomForestClassifier import *
-from SVMClassifier import *
 #from DcnnClassifier import *
-path = os.getcwd()+'\\tournament_selection\\'
-sys.path.insert(0, path)
-# Importing necessary functions for final prediction
-from TournamentSelection import *
-
 
 # You must edit these based on your files
 fileName = ['data1.dat', 'data2.csv' , 'data3.dat', 'data4.dat', 'data5.csv']
@@ -147,51 +137,3 @@ for i in fileName:
   
   ############################ Creating train data with their labels ############################
   ###############################################################################################
-  
-  
-  
-######################################################################## 
-############################ Classification ############################
-'''
-You Need to update this part completely based on your data set.
-'''
-
-'''
-# Select which classifier you want to use
-knn = False
-naiveBayes = False
-rndForest = False
-svm = False
-
-# Creating empty Dictionaries for accuracies and predictions
-Accuracy = {}
-Predictions = {}
-
-if (knn):
-  knnLearner,_ = knnClassifier(Xtrain, Ytrain, K=range(1,3))
-  YtestHat = knnLearner.predict(Xtest)
-  Accuracy['knn'] = accuracy_score(Ytest, YtestHat)
-  Predictions['knn'] = YtestHat
-if (naiveBayes):
-  naiveBayesLearner,_ = NaiveBayesGaussianClassifier(Xtrain, Ytrain)
-  YtestHat = naiveBayesLearner.predict(Xtest)
-  Accuracy['naiveBayes'] = accuracy_score(Ytest, YtestHat)
-  Predictions['naiveBayes'] = YtestHat
-if (rndForest):
-  rndForestLearner,_ = RandomForestClassifier(Xtrain, Ytrain, D=range(1,3))
-  YtestHat = rndForestLearner.predict(Xtest)
-  Accuracy['rndForest'] = accuracy_score(Ytest, YtestHat)
-  Predictions['rndForest'] = YtestHat
-if (svm):
-  svmLearner,_ = SVMClassifier(Xtrain, Ytrain)
-  YtestHat = svmLearner.predict(Xtest)
-  Accuracy['svm'] = accuracy_score(Ytest, YtestHat)
-  Predictions['svm'] = YtestHat
-
-Predictions['size'] = len(Ytest)
-
-TournamentSelection(Accuracy, Predictions)
-'''
-
-############################ Classification ############################
-########################################################################
