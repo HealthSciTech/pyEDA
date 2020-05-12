@@ -13,10 +13,7 @@ from openShimmerFile import *
 from preprocessing import *
 from filtering import *
 from pyEDA import *
-
-path = os.getcwd()+'\\classification\\'
-sys.path.insert(0, path)
-#from DcnnClassifier import *
+from DNN_Features import *
 
 # You must edit these based on your files
 fileName = ['data1.dat', 'data2.csv' , 'data3.dat', 'data4.dat', 'data5.csv']
@@ -73,16 +70,17 @@ for i in fileName:
   ###
   
   ##################################
-  # Added by Emad
-  # model = create_1Dcnn()
-  # getFeature = deepFeeature(model)
-  # getPrediction = deepPrediction(model)
+  # Just Need to load the trainde model here and use it for prediction
   
-  # exTrain3000 = getFeature([gsrdata_segmentwise[:3000], 0])[0]
+  model = create_1Dcnn()
+  path_to_DL_weights = './pyEDA/eda_deep_model.h5'
+  model.load_weights(path_to_DL_weights)
 
-  # # output of getFeature function
-  # exTrain3000[0]
+  # Features extracted from Deep learning model
+  getFeature = deepFeatures(model)
 
+  # Fully Connected Network which can be used for the prediction
+  getPrediction = deepPrediction(model)
   ##################################
   ###
   
