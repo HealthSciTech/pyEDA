@@ -2,9 +2,29 @@
 import numpy as np
 
 '''
-Calculate the number of peaks based on onSet and offSet values.
+Calculate the number of peaks based on on-set and off-set values.
 '''
-def calculate_thepeaks(normalized_gsr, onSet_offSet, ampThreshold=0.02):
+def calculate_thepeaks(gsr, onSet_offSet, ampThreshold=0.02):
+  '''calculate the peaks
+    Funcion that finds the peaks in each on-set off-set window
+    
+    Parameters
+    ----------
+    gsr : 1-d array 
+        array containing gsr sensor data
+    onSet_offSet : 2-d array
+        array containing the onSet and offSet for each window
+    ampThreshold : float 
+        amplitude threshold
+        default : 0.02
+    
+    Returns
+    -------
+    peaklist : 2-d array
+        list of peaks for each onSet-offSet window
+    indexlist : 2-d array
+        list of indexes peaks for each onSet-offSet window
+  '''
   # Some initializations
   peaklist = []
   indexlist = []
@@ -13,12 +33,12 @@ def calculate_thepeaks(normalized_gsr, onSet_offSet, ampThreshold=0.02):
   index = 0
   Max = 0
 
-  for i, data in enumerate(normalized_gsr):
+  for i, data in enumerate(gsr):
     if (index == len(onSet_offSet)):
       break
     if (checkForMax):
       startIndex = onSet_offSet[index][0]
-      amplitude = data-normalized_gsr[startIndex]
+      amplitude = data-gsr[startIndex]
       if (amplitude > Max):
         peakIndex = i
         Max = amplitude

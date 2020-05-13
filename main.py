@@ -116,22 +116,3 @@ for i in fileName:
   
   ############################ Visualizing Statistical Features ############################
   ##########################################################################################
-  
-  
-  
-  
-  ###############################################################################################
-  ############################ Creating train data with their labels ############################
-
-  # Creating input X for classifier
-  for i2 in range(0, len(wd['segment_indices'])):
-    tmp = [m['mean_gsr'][i2],m['max_of_peaks'][i2],m['number_of_peaks'][i2]]
-    X.append(tmp)
-    # Based on their label from your data set: here is just set as i
-    Y.append(i2)
-
-  Xtrain = np.array(X)
-  Ytrain = np.array(Y)
-  
-  ############################ Creating train data with their labels ############################
-  ###############################################################################################

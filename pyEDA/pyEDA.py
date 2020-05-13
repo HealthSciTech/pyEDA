@@ -20,8 +20,8 @@ from windowing import *
 '''
 
 '''
-def statistical_feature_extraction(preprocessed_gsr, sample_rate, windowsize=0.75, report_time=False,  
-            measures={}, working_data={}):
+def statistical_feature_extraction(preprocessed_gsr, sample_rate, windowsize=0.75,  measures={},
+                        working_data={}):
     '''processes passed gsrdata.
     
     Processes the passed gsr data. Returns measures{} dict containing results.
@@ -35,9 +35,6 @@ def statistical_feature_extraction(preprocessed_gsr, sample_rate, windowsize=0.7
         the window size in seconds to use in the calculation of the moving average.
         Calculated as windowsize * sample_rate
         default : 0.75
-    report_time : bool
-        whether to report total processing time of algorithm 
-        default : True
     measures : dict
         dictionary object used by heartpy to store computed measures. Will be created
         if not passed to function.
@@ -81,10 +78,6 @@ def statistical_feature_extraction(preprocessed_gsr, sample_rate, windowsize=0.7
 	# Calculate the maximum value of peaks of EDA
     measures['max_of_peaks'] = calculate_max_peaks(peaklist)
 
-    #report time if requested. Exclude from tests, output is untestable.
-    if report_time: # pragma: no cover
-        print('\nFinished in %.8s sec' %(time.time()-t1))
-
     return working_data, measures
 
 	
@@ -94,7 +87,10 @@ process EDA signal with windowing of size segment_width*sample_rate
 '''
 def segmentwise(gsrdata, sample_rate, segment_width=120, segment_overlap=0,
                         segment_min_size=20):
-    '''segmentwise gsr data with a windowed function
+    '''processes passed gsrdata.
+    Processes the passed gsr data. Returns measures{} dict containing results.
+	
+    Parameters
     ----------
     gsrdata : 1d array or list 
         array or list containing gsr data to be analysed
@@ -109,21 +105,8 @@ def segmentwise(gsrdata, sample_rate, segment_width=120, segment_overlap=0,
         default : 0 (no overlap)
     segment_min_size : int
         often a tail end of the data remains after segmenting into segments.
-        segment_min_size indicates the minimum length (in seconds) the tail 
-        end needs  to be in order to be included in analysis. It is discarded 
-        if it's shorter.
         default : 20
-    Keyword arguments:
-    ------------------
-    gsrdata -- 1-dimensional numpy array or list containing gsr data
-    sample_rate -- the sample rate of the gsr data
-    segment_width -- the width of the segment, in seconds, within which all measures 
-                     will be computed.
-    segment_overlap -- the fraction of overlap of adjacent segments, 
-                       needs to be 0 <= segment_overlap < 1
-    segment_min_size -- After segmenting the data, a tail end will likely remain that is shorter than the specified
-                        segment_size. segment_min_size sets the minimum size for the last segment of the 
-                        generated series of segments to still be included. Default = 20.
+		
     Returns
     -------
     gsrdata_segmentwise : 2d array or list 
@@ -133,7 +116,6 @@ def segmentwise(gsrdata, sample_rate, segment_width=120, segment_overlap=0,
     s_measures : dict
         dictionary object used by heartpy to store computed measures.
     '''
-
     assert 0 <= segment_overlap < 1.0, 'value error: segment_overlap needs to be \
 0 <= segment_overlap < 1.0!'
 
