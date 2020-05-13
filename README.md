@@ -18,7 +18,7 @@ NOTE: make sure you are using the correct directory for your file.
 <br />
 
 # Documentation
-Here you can find the link to different notebooks about all the aspects of analysis of the GSR signal. These documentations include information about preprocessing and feature extraction of EDA signal. For windowing we use the same algorithm used in heartPy library.
+Here you can find the link to different notebooks about all the aspects of analysis of the GSR signal. These documentations include information about preprocessing and feature extraction of EDA signal. For windowing and segmentations, we use the same algorithm used in heartPy library.
 <br />
 <br />
 These show how to handle various analysis tasks with pyEDA, from noisy data collected from Shimmer GSR+.
