@@ -1,5 +1,5 @@
 # pyEDA
-This is pyEDA v.1.1.
+This is pyEDA v.1.2.
 <br />This package includes all you need for Electrodermal Activity analysis also known as GSR. It contains preprocessing of the EDA signal and its feature extraction. (Features are extracted using statistical algorithms and deep learning)
 <br />
 <br />
