@@ -21,24 +21,24 @@ Use the following command in your code to analysis the data:
 ```
 m, wd = process(eda, sample_rate=128, new_sample_rate=40, segment_width=600, segment_overlap=0)
 ```
-inputs::
+<b>inputs::</b>
 <br />
-eda: the GSR signal
+<b>eda:</b> the GSR signal
 <br />
-sample_rate: sample rate which the data is collected at
+<b>sample_rate:</b> sample rate which the data is collected at
 <br />
-new_sample_rate: new sample rate to downsample the data to
+<b>new_sample_rate:</b> new sample rate to downsample the data to
 <br />
-segment_width: segmentation of signal in seconds
+<b>segment_width:</b> segmentation of signal in seconds
 <br />
-segment_overlap: overlap of segments in seconds
+<b>segment_overlap:</b> overlap of segments in seconds
 <br />
 <br />
-returns::
+<b>returns::</b>
 <br />
-m: all the measurements of the signals for each of the segment indices (number of peaks, mean of EDA, maximum value of the peaks)
+<b>m:</b> all the measurements of the signals for each of the segment indices (number of peaks, mean of EDA, maximum value of the peaks)
 <br />
-wd: filtered phasic gsr, phasic gsr, tonic gsr, and peacklist for each of the segment indices
+<b>wd:</b> filtered phasic gsr, phasic gsr, tonic gsr, and peacklist for each of the segment indices
 
 # Documentation
 Here you can find the link to different notebooks about all the aspects of analysis of the GSR signal. These documentations include information about preprocessing and feature extraction of EDA signal. For windowing and segmentations, we use the same algorithm used in heartPy library.
