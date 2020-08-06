@@ -10,7 +10,7 @@ from pyEDA.filtering import *
 from pyEDA.pyEDA import *
 from pyEDA.DNN_Features import *
 
-def process(gsr_signal, sample_rate=128, new_sample_rate=40, segment_width=600, segment_overlap=0):
+def process(gsr_signal, use_scipy=True, sample_rate=128, new_sample_rate=40, segment_width=600, segment_overlap=0):
 	gsrdata = np.array(gsr_signal)
 	
 	plt.figure(figsize=(12,4))
@@ -46,7 +46,7 @@ def process(gsr_signal, sample_rate=128, new_sample_rate=40, segment_width=600, 
 	
 	# Statistical Feature Extraction
 	for i in preprocessed_gsr:
-		working_data, measures = statistical_feature_extraction(i, new_sample_rate)
+		working_data, measures = statistical_feature_extraction(i, new_sample_rate, use_scipy=use_scipy)
 		for k in measures.keys():
 			s_measures = append_dict(s_measures, k, measures[k])
 		for k in working_data.keys():
@@ -69,5 +69,8 @@ def process(gsr_signal, sample_rate=128, new_sample_rate=40, segment_width=600, 
 		
 		# Fully Connected Network which can be used for the prediction
 		getPrediction = deepPrediction(model)"""
+		
+	############################ Feature Extraction Part ############################
+	#################################################################################
 	
 	return m, wd
