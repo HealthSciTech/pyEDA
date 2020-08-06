@@ -19,11 +19,13 @@ from main import *
 ```
 Use the following command in your code to analysis the data:
 ```
-m, wd = process(eda, sample_rate=128, new_sample_rate=40, segment_width=600, segment_overlap=0)
+m, wd = process(eda, use_scipy=True, sample_rate=128, new_sample_rate=40, segment_width=600, segment_overlap=0)
 ```
 <b>inputs::</b>
 <br />
 <b>eda:</b> the GSR signal
+<br />
+<b>use_scipy:</b> set true to use scipy for peak extraction from phasic gsr (recommended)
 <br />
 <b>sample_rate:</b> sample rate which the data is collected at
 <br />
