@@ -1,21 +1,16 @@
-import sys
-import os
-
 # Importing necessary libraries
 import numpy as np
 import time
 from scipy import stats
 
-path = os.getcwd()+'\\pyEDA\\'
-sys.path.insert(0, path)
 # Importing necessary functions
-from calculate_onSetOffSet import *
-from calculate_thepeaks import *
-from calculateFeatures import *
-from cvxEDA import *
-from filtering import *
-from preprocessing import *
-from windowing import *
+from pyEDA.calculate_onSetOffSet import *
+from pyEDA.calculate_thepeaks import *
+from pyEDA.calculateFeatures import *
+from pyEDA.cvxEDA import *
+from pyEDA.filtering import *
+from pyEDA.preprocessing import *
+from pyEDA.windowing import *
 
 '''
 
