@@ -1,7 +1,0 @@
-cvxopt==4.20.0
-matplotlib==3.1.3
-python==3.8.2
-sklearn==0.0
-scipy==1.4.1
-numpy==1.18.1
-tensorflow==1.15.2
