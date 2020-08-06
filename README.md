@@ -17,7 +17,7 @@ Use the following command to import the library in your code:
 ```
 from main import *
 ```
-Use the following command to in your code to analysis the data:
+Use the following command in your code to analysis the data:
 ```
 m, wd = process(eda, sample_rate=128, new_sample_rate=40, segment_width=600, segment_overlap=0)
 ```
