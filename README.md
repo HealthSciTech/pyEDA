@@ -1,6 +1,8 @@
 # pyEDA
 This is pyEDA v.1.1.
 <br />This package includes all you need for Electrodermal Activity analysis also known as GSR. It contains preprocessing of the EDA signal and its feature extraction. (Features are extracted using statistical algorithms and deep learning)
+<br />
+<br />
 NOTE: Deep learning feature extraction are under some changes. For now you can use the package for preprocessing and statistical features extraction.
 
 # Data collection
@@ -20,14 +22,22 @@ Use the following command to in your code to analysis the data:
 m, wd = process(eda, sample_rate=128, new_sample_rate=40, segment_width=600, segment_overlap=0)
 ```
 inputs::
+<br />
 eda: the GSR signal
+<br />
 sample_rate: sample rate which the data is collected at
+<br />
 new_sample_rate: new sample rate to downsample the data to
+<br />
 segment_width: segmentation of signal in seconds
+<br />
 segment_overlap: overlap of segments in seconds
-
+<br />
+<br />
 returns::
+<br />
 m: all the measurements of the signals for each of the segment indices (number of peaks, mean of EDA, maximum value of the peaks)
+<br />
 wd: filtered phasic gsr, phasic gsr, tonic gsr, and peacklist for each of the segment indices
 
 # Documentation
