@@ -4,18 +4,14 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 
 # Importing necessary functions for feature extraction
-from pyEDA.openShimmerFile import *
-from pyEDA.preprocessing import *
-from pyEDA.filtering import *
-from pyEDA.pyEDA import *
-from pyEDA.DNN_Features import *
+from pyEDA.pyEDA.openShimmerFile import *
+from pyEDA.pyEDA.preprocessing import *
+from pyEDA.pyEDA.filtering import *
+from pyEDA.pyEDA.pyEDA import *
+from pyEDA.pyEDA.DNN_Features import *
 
 def process(gsr_signal, use_scipy=True, sample_rate=128, new_sample_rate=40, segment_width=600, segment_overlap=0):
 	gsrdata = np.array(gsr_signal)
-	
-	plt.figure(figsize=(12,4))
-	plt.plot(gsrdata)
-	plt.show()
 	
 	print("If you are using this tool for your research please cite this paper: \"GSR Analysis for Stress: Development and Validation of an Open Source Tool for Noisy Naturalistic GSR Data\"");
 	
@@ -73,4 +69,4 @@ def process(gsr_signal, use_scipy=True, sample_rate=128, new_sample_rate=40, seg
 	############################ Feature Extraction Part ############################
 	#################################################################################
 	
-	return m, wd
+	return m, wd, preprocessed_gsr

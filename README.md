@@ -19,7 +19,7 @@ from main import *
 ```
 Use the following command in your code to analysis the data:
 ```
-m, wd = process(eda, use_scipy=True, sample_rate=128, new_sample_rate=40, segment_width=600, segment_overlap=0)
+m, wd, eda_clean = process(eda, use_scipy=True, sample_rate=128, new_sample_rate=40, segment_width=600, segment_overlap=0)
 ```
 <b>inputs::</b>
 <br />
@@ -41,6 +41,8 @@ m, wd = process(eda, use_scipy=True, sample_rate=128, new_sample_rate=40, segmen
 <b>m:</b> all the measurements of the signals for each of the segment indices (number of peaks, mean of EDA, maximum value of the peaks)
 <br />
 <b>wd:</b> filtered phasic gsr, phasic gsr, tonic gsr, and peacklist for each of the segment indices
+<br />
+<b>eda_clean:</b> preprocessed gsr data
 
 # Documentation
 Here you can find the link to different notebooks about all the aspects of analysis of the GSR signal. These documentations include information about preprocessing and feature extraction of EDA signal. For windowing and segmentations, we use the same algorithm used in heartPy library.

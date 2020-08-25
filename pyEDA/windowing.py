@@ -1,7 +1,7 @@
 # Importing necessary libraries
 import numpy as np
 
-def make_windows(data, sample_rate, windowsize=120, overlap=0, min_size=20):
+def make_windows(data, sample_rate, windowsize=120, overlap=0, min_size=5):
     '''slices data into windows
     Funcion that slices data into windows. 
     
@@ -22,13 +22,13 @@ def make_windows(data, sample_rate, windowsize=120, overlap=0, min_size=20):
     -------
     out : array
         tuples of window indices
-    '''
-    ln = len(data)
+    '''	
+    ln = len(data)	
     window = windowsize * sample_rate
     stepsize = (1 - overlap) * window
     start = 0
     end = window
-    
+	    
     slices = []
     while end < len(data):
         slices.append((start, end))

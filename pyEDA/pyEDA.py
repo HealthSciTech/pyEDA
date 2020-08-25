@@ -2,16 +2,17 @@
 import numpy as np
 import time
 import scipy.signal
+import matplotlib.pyplot as plt
 from scipy import stats
 
 # Importing necessary functions
-from pyEDA.calculate_onSetOffSet import *
-from pyEDA.calculate_thepeaks import *
-from pyEDA.calculateFeatures import *
-from pyEDA.cvxEDA import *
-from pyEDA.filtering import *
-from pyEDA.preprocessing import *
-from pyEDA.windowing import *
+from pyEDA.pyEDA.calculate_onSetOffSet import *
+from pyEDA.pyEDA.calculate_thepeaks import *
+from pyEDA.pyEDA.calculateFeatures import *
+from pyEDA.pyEDA.cvxEDA import *
+from pyEDA.pyEDA.filtering import *
+from pyEDA.pyEDA.preprocessing import *
+from pyEDA.pyEDA.windowing import *
 
 '''
 
@@ -47,8 +48,10 @@ def statistical_feature_extraction(preprocessed_gsr, sample_rate, windowsize=0.7
 	'''
 	t1 = time.time()
 	
+	
 	# Extracting phasic and tonic components of from normalized gsr
 	[phasic_gsr, p, tonic_gsr, l, d, e, obj] = cvxEDA(preprocessed_gsr, 1./sample_rate)
+	
 	# Removing line noise
 	filtered_phasic_gsr = butter_lowpassfilter(phasic_gsr, 5./sample_rate, sample_rate, order=4)
 	
@@ -59,6 +62,7 @@ def statistical_feature_extraction(preprocessed_gsr, sample_rate, windowsize=0.7
 	
 	peaklist = []
 	indexlist = []
+	
 	if (use_scipy):
 		indexlist, _ = scipy.signal.find_peaks(filtered_phasic_gsr)
 		for i in indexlist:
@@ -87,7 +91,7 @@ def statistical_feature_extraction(preprocessed_gsr, sample_rate, windowsize=0.7
 process EDA signal with windowing of size segment_width*sample_rate
 '''
 def segmentwise(gsrdata, sample_rate, segment_width=120, segment_overlap=0,
-                        segment_min_size=20):
+                        segment_min_size=5):
 	'''processes passed gsrdata.
 	Processes the passed gsr data. Returns measures{} dict containing results.
 	
@@ -121,6 +125,8 @@ def segmentwise(gsrdata, sample_rate, segment_width=120, segment_overlap=0,
 0 <= segment_overlap < 1.0!'
 
 	slice_indices = make_windows(gsrdata, sample_rate, segment_width, segment_overlap, segment_min_size)
+	
+	print(slice_indices)
 
 	s_measures = {}
 	s_working_data = {}
