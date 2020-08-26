@@ -121,12 +121,7 @@ def segmentwise(gsrdata, sample_rate, segment_width=120, segment_overlap=0,
 	s_measures : dict
 		dictionary object used by heartpy to store computed measures.
 	'''
-	assert 0 <= segment_overlap < 1.0, 'value error: segment_overlap needs to be \
-0 <= segment_overlap < 1.0!'
-
 	slice_indices = make_windows(gsrdata, sample_rate, segment_width, segment_overlap, segment_min_size)
-	
-	print(slice_indices)
 
 	s_measures = {}
 	s_working_data = {}
