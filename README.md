@@ -15,7 +15,7 @@ git clone https://github.com/AmirAJ95/pyEDA/
 ```
 Use the following command to import the library in your code:
 ```
-from main import *
+from pyEDA.main import *
 ```
 Use the following command in your code to analysis the data:
 ```
