@@ -7,11 +7,7 @@ This is pyEDA v.2.0.
 All the plots and the data collected for this package are collected from Shimmer GSR+ wearable sensor with 128 Hz frequency sampling rate. 
 
 # How to use?
-Use the following command to clone the repository to your local directory:
-```
-git clone https://github.com/AmirAJ95/pyEDA/
-```
-Use the following command to import the library in your code:
+After cloning the repository to your local directory use the following command to import the library in your code:
 ```
 from pyEDA.main import *
 ```
