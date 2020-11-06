@@ -122,7 +122,7 @@ def segmentwise(gsrdata, sample_rate, segment_width=120, segment_overlap=0,
 		dictionary object used by heartpy to store computed measures.
 	'''
 	slice_indices = make_windows(gsrdata, sample_rate, segment_width, segment_overlap, segment_min_size)
-
+	
 	s_measures = {}
 	s_working_data = {}
 	

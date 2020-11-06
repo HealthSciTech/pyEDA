@@ -8,19 +8,15 @@ from pyEDA.pyEDA.openShimmerFile import *
 from pyEDA.pyEDA.preprocessing import *
 from pyEDA.pyEDA.filtering import *
 from pyEDA.pyEDA.pyEDA import *
-from pyEDA.pyEDA.DNN_Features import *
+from pyEDA.pyEDA.autoencoder import *
 
-def process(gsr_signal, use_scipy=True, sample_rate=128, new_sample_rate=40, segment_width=600, segment_overlap=0):
+def process_statistical(gsr_signal, use_scipy=True, sample_rate=128, new_sample_rate=40, segment_width=600, segment_overlap=0):
 	gsrdata = np.array(gsr_signal)
 	
 	print("If you are using this tool for your research please cite this paper: \"GSR Analysis for Stress: Development and Validation of an Open Source Tool for Noisy Naturalistic GSR Data\"");
 	
-	############################################################################
-	############################ Preprocessing Part ############################
-	
-	# Select the new sample rate, and windowing size
-	new_sample_rate = new_sample_rate
-	segment_width = segment_width
+	#################################################################################
+	############################## Preprocessing Part ###############################
 	
 	# Resample the data based on original data rate of your device, here: 128Hz
 	data = resample_data(gsrdata, sample_rate, new_sample_rate)
@@ -30,10 +26,10 @@ def process(gsr_signal, use_scipy=True, sample_rate=128, new_sample_rate=40, seg
 	
 	preprocessed_gsr = []
 	for i in gsrdata_segmentwise:
-		preprocessed_gsr.append(normalization(rolling_mean(i, 1./new_sample_rate, new_sample_rate)))
+		preprocessed_gsr.append(rolling_mean(i, 1./new_sample_rate, new_sample_rate))
 	
-	############################ Preprocessing Part ############################
-	############################################################################
+	############################## Preprocessing Part ###############################
+	#################################################################################
 	
 	
 	
@@ -50,23 +46,102 @@ def process(gsr_signal, use_scipy=True, sample_rate=128, new_sample_rate=40, seg
 	
 	wd = s_working_data
 	m = s_measures
-	
-	"""
-	# Deep Learning Feature Extraction
-	# Just Need to load the trained model here and use it for prediction: 
-	# The current model is trained for stress detection feature extraction (WESAD dataset)
-	for i in preprocessed_gsr:
-		model = create_1Dcnn(len(i))
-		path_to_DL_weights = './pyEDA/eda_deep_model.h5'
-		model.load_weights(path_to_DL_weights)
-		
-		# Features extracted from Deep learning model
-		getFeature = deepFeatures(model)
-		
-		# Fully Connected Network which can be used for the prediction
-		getPrediction = deepPrediction(model)"""
 		
 	############################ Feature Extraction Part ############################
 	#################################################################################
 	
 	return m, wd, preprocessed_gsr
+	
+	
+def prepare_automatic(gsr_signal, sample_rate=128, new_sample_rate=40, epochs=100, batch_size=10):
+	gsrdata = np.array(gsr_signal)
+	print("If you are using this tool for your research please cite this paper: \"GSR Analysis for Stress: Development and Validation of an Open Source Tool for Noisy Naturalistic GSR Data\"");
+	
+	#################################################################################
+	############################## Preprocessing Part ###############################
+	
+	# Resample the data based on original data rate of your device, here: 128Hz + rolling window
+	
+	preprocessed_gsr = []
+	for i in gsr_signal:
+		data = resample_data(i, sample_rate, new_sample_rate)
+		preprocessed_gsr.append(rolling_mean(data, 1./new_sample_rate, new_sample_rate))
+	preprocessed_gsr = np.array(preprocessed_gsr)
+	
+	############################## Preprocessing Part ###############################
+	#################################################################################
+	
+	
+	#################################################################################
+	############################ Train the Autoencoder ##############################
+	
+	# set the input shape to model
+	input_shape = preprocessed_gsr.shape[1]
+	
+	#  use gpu if available
+	device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+	# create a model from `AE` autoencoder class
+	# load it to the specified device, either gpu or cpu
+	model = AE(input_shape=input_shape).to(device)
+
+	# create an optimizer object
+	# Adam optimizer with learning rate 1e-3
+	optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+	# mean-squared error loss
+	criterion = nn.MSELoss()
+	
+	# create tensor data
+	train_loader = create_train_loader(preprocessed_gsr, batch_size)
+	
+	# Training the network
+	for epoch in range(epochs):
+		loss = 0
+		for batch_features in train_loader:
+			# reset the gradients back to zero
+			# PyTorch accumulates gradients on subsequent backward passes
+			optimizer.zero_grad()
+			
+			# compute reconstructions
+			outputs,_ = model(batch_features)
+			
+			# compute training reconstruction loss
+			train_loss = criterion(outputs, batch_features)
+			
+			# compute accumulated gradients
+			train_loss.backward()
+			
+			# perform parameter update based on current gradients
+			optimizer.step()
+			
+			# add the mini-batch training loss to epoch loss
+			loss += train_loss.item()
+			
+		# compute the epoch training loss
+		loss = loss / len(train_loader)
+		
+		# display the epoch training loss
+		print("epoch : {}/{}, loss = {:.6f}".format(epoch + 1, epochs, loss))
+		
+	# Save the network
+	torch.save(model, 'pyEDA\pyEDA\checkpoint.t7')
+		
+	############################ Train the Autoencoder ##############################
+	#################################################################################
+	
+
+def process_automatic(gsr_signal):
+	#################################################################################
+	############################ Feature Extraction Part ############################
+	
+	# Load the network
+	model = torch.load('pyEDA\pyEDA\checkpoint.t7')
+	
+	# Extract the features
+	train_outputs, latent_variable = model(torch.FloatTensor(gsr_signal))
+	return latent_variable;
+	
+	############################ Feature Extraction Part ############################
+	#################################################################################
+	
