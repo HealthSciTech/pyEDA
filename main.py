@@ -53,7 +53,7 @@ def process_statistical(gsr_signal, use_scipy=True, sample_rate=128, new_sample_
 	return m, wd, preprocessed_gsr
 	
 	
-def prepare_automatic(gsr_signal, sample_rate=128, new_sample_rate=40, epochs=100, batch_size=10):
+def prepare_automatic(gsr_signal, sample_rate=128, new_sample_rate=40, k=32, epochs=100, batch_size=10):
 	gsrdata = np.array(gsr_signal)
 	print("If you are using this tool for your research please cite this paper: \"GSR Analysis for Stress: Development and Validation of an Open Source Tool for Noisy Naturalistic GSR Data\"");
 	
@@ -83,7 +83,7 @@ def prepare_automatic(gsr_signal, sample_rate=128, new_sample_rate=40, epochs=10
 
 	# create a model from `AE` autoencoder class
 	# load it to the specified device, either gpu or cpu
-	model = AE(input_shape=input_shape).to(device)
+	model = AE(input_shape=input_shape, latent_size=k).to(device)
 
 	# create an optimizer object
 	# Adam optimizer with learning rate 1e-3

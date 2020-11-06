@@ -13,10 +13,10 @@ class AE(nn.Module):
             in_features=128, out_features=64
         )
         self.encoder_output_layer = nn.Linear(
-            in_features=64, out_features=32
+            in_features=64, out_features=kwargs["latent_size"]
         )
         self.decoder_hidden_layer_1 = nn.Linear(
-            in_features=32, out_features=64
+            in_features=kwargs["latent_size"], out_features=64
         )
         self.decoder_hidden_layer_2 = nn.Linear(
             in_features=64, out_features=128
