@@ -102,7 +102,6 @@ def prepare_automatic(gsr_signal, sample_rate=128, new_sample_rate=40, k=32, epo
 			# reset the gradients back to zero
 			# PyTorch accumulates gradients on subsequent backward passes
 			optimizer.zero_grad()
-			
 			# compute reconstructions
 			outputs,_ = model(batch_features)
 			
@@ -139,8 +138,9 @@ def process_automatic(gsr_signal):
 	model = torch.load('pyEDA\pyEDA\checkpoint.t7')
 	
 	# Extract the features
+	gsr_signal = np.reshape(gsr_signal, (1, gsr_signal.shape[0]))
 	train_outputs, latent_variable = model(torch.FloatTensor(gsr_signal))
-	return latent_variable;
+	return latent_variable.detach().numpy()[0];
 	
 	############################ Feature Extraction Part ############################
 	#################################################################################
