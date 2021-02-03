@@ -46,7 +46,7 @@ prepare_automatic(eda_signals, sample_rate=128, new_sample_rate=40, k=32, epochs
 ```
 <b>inputs::</b>
 <br />
-<b>eda_signals:</b> All eda signals targeted for feature extraction (2d list: nxm, n=number of signals, m=length of each signal)
+<b>eda_signals:</b> All eda signals (must be normalized to 0-1 range since the activation function of last layer is sigmoid.) targeted for feature extraction (2d list: nxm, n=number of signals, m=length of each signal)
 <br />
 <b>sample_rate:</b> sample rate which the data is collected at
 <br />
