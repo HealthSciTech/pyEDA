@@ -53,6 +53,7 @@ def statistical_feature_extraction(preprocessed_gsr, sample_rate, windowsize=0.7
 	[phasic_gsr, p, tonic_gsr, l, d, e, obj] = cvxEDA(preprocessed_gsr, 1./sample_rate)
 	
 	# Removing line noise
+	filtered_phasic_gsr = phasic_gsr # comment out the next line if the line noise in negligble in your data
 	filtered_phasic_gsr = butter_lowpassfilter(phasic_gsr, 5./sample_rate, sample_rate, order=4)
 	
 	# Update working_data
