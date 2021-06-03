@@ -55,7 +55,7 @@ def process_statistical(gsr_signal, use_scipy=True, sample_rate=128, new_sample_
 	
 def prepare_automatic(gsr_signal, sample_rate=128, new_sample_rate=40, k=32, epochs=100, batch_size=10):
 	gsrdata = np.array(gsr_signal)
-	print("If you are using this tool for your research please cite this paper: \"GSR Analysis for Stress: Development and Validation of an Open Source Tool for Noisy Naturalistic GSR Data\"");
+	print("If you are using this tool for your research please cite this paper: \"pyEDA: An Open-Source Python Toolkit for Pre-processing and Feature Extraction of Electrodermal Activity\"");
 	
 	#################################################################################
 	############################## Preprocessing Part ###############################
