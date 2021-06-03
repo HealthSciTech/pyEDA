@@ -91,10 +91,13 @@ GSR Analysis for Stress: Development and Validation of an Open Source Tool for N
 ```
 Full bibtex reference:
 
-@article{aqajari2020gsr,
-  title={GSR Analysis for Stress: Development and Validation of an Open Source Tool for Noisy Naturalistic GSR Data},
-  author={Aqajari, Seyed Amir Hossein and Naeini, Emad Kasaeyan and Mehrabadi, Milad Asgari and Labbaf, Sina and Rahmani, Amir M and Dutt, Nikil},
-  journal={arXiv preprint arXiv:2005.01834},
-  year={2020}
+@article{aqajari2021pyeda,
+  title={pyEDA: An Open-Source Python Toolkit for Pre-processing and Feature Extraction of Electrodermal Activity},
+  author={Aqajari, Seyed Amir Hossein and Naeini, Emad Kasaeyan and Mehrabadi, Milad Asgari and Labbaf, Sina and Dutt, Nikil and Rahmani, Amir M},
+  journal={Procedia Computer Science},
+  volume={184},
+  pages={99--106},
+  year={2021},
+  publisher={Elsevier}
 }
 ```
