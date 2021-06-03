@@ -86,7 +86,7 @@ Here you can find the list of notebooks for feature extraction of EDA signal:
 
 # Citation
 ```
-GSR Analysis for Stress: Development and Validation of an Open Source Tool for Noisy Naturalistic GSR Data
+pyEDA: An Open-Source Python Toolkit for Pre-processing and Feature Extraction of Electrodermal Activity
 ```
 ```
 Full bibtex reference:
